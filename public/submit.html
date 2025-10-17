@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Submit Media — Media Portal</title>
+
+  <!-- CSS Links -->
+  <link rel="stylesheet" href="submit.css" />
+
+  <style>
+    /* === NAVBAR ANIMATION STYLES === */
+    nav.navbar {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      background: rgba(10, 15, 25, 0.25);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      transition: all 0.4s ease;
+    }
+
+    nav.scrolled {
+      background: rgba(10, 15, 25, 0.8);
+      box-shadow: 0 2px 20px rgba(0,0,0,0.35);
+    }
+
+    .logo {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.6rem;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .logo-icon {
+      font-size: 1.8rem;
+      background: linear-gradient(90deg, #7c5cff, #00d1ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: spin-logo 6s linear infinite;
+    }
+
+    @keyframes spin-logo {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 22px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-links li a {
+      color: #eaeaea;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .nav-links li a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -4px;
+      width: 0%;
+      height: 2px;
+      background: linear-gradient(90deg, #7c5cff, #00d1ff);
+      transition: width 0.3s ease;
+      border-radius: 2px;
+    }
+
+    .nav-links li a:hover::after,
+    .nav-links li a.active::after {
+      width: 100%;
+    }
+
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      width: 28px;
+      height: 20px;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+
+    .menu-toggle span,
+    .menu-toggle::before,
+    .menu-toggle::after {
+      content: '';
+      height: 3px;
+      width: 100%;
+      background: #fff;
+      border-radius: 3px;
+      transition: all 0.3s ease;
+    }
+
+    @media (max-width: 820px) {
+      .menu-toggle {
+        display: flex;
+      }
+
+      .nav-links {
+        position: fixed;
+        top: 70px;
+        right: -100%;
+        flex-direction: column;
+        background: rgba(10, 15, 25, 0.9);
+        width: 60%;
+        padding: 30px 0;
+        text-align: center;
+        gap: 18px;
+        transition: right 0.4s ease;
+      }
+
+      .nav-links.open {
+        right: 0;
+      }
+
+      .nav-links li a {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- 🌟 NAVBAR -->
+  <nav class="navbar" id="navbar">
+    <div class="logo">
+      <span class="logo-icon">🎧</span>
+      <span>Media</span><span style="font-weight:700;">Portal</span>
+    </div>
+
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="music.html">Music</a></li>
+      <li><a href="movies.html">Movies</a></li>
+      <li><a href="pictures.html">Pictures</a></li>
+      <li><a href="submit.html" class="active">Submit</a></li>
+    </ul>
+
+    <div class="menu-toggle" id="menuToggle">
+      <span></span>
+    </div>
+  </nav>
+
+  <!-- 🌌 BACKGROUND ANIMATIONS -->
+  <div class="bg-accents" aria-hidden="true">
+    <span class="dot d1"></span>
+    <span class="dot d2"></span>
+    <span class="wave"></span>
+  </div>
+
+  <!-- ✨ SUBMIT FORM -->
+  <main class="submit-page container">
+    <section class="glass-card">
+      <header class="card-header">
+        <h1>Share your creativity</h1>
+        <p class="sub">Upload your pictures, videos, or audio — and share your art with the world.</p>
+      </header>
+
+      <form id="uploadForm" class="upload-form" novalidate>
+        <div class="row">
+          <label class="field">
+            <input type="text" id="u-name" name="author" />
+            <span class="label">Your name</span>
+          </label>
+          <label class="field">
+            <input type="text" id="u-title" name="title" required />
+            <span class="label">Title</span>
+          </label>
+        </div>
+
+        <div class="row">
+          <label class="field select-field">
+            <select id="u-cat" name="category">
+              <option value="pictures">Pictures</option>
+              <option value="music">Music</option>
+              <option value="movies">Movies</option>
+            </select>
+            <span class="label">Category</span>
+          </label>
+        </div>
+
+        <div class="upload-area" id="dropbox">
+          <input id="mediaInput" name="media" type="file" accept="image/*,audio/*,video/*" />
+          <div class="upload-instructions">
+            <svg class="upload-icon" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="1.6" d="M12 3v12M8 7l4-4 4 4M4 21h16"/></svg>
+            <div class="text">
+              <strong>Drag & drop</strong> your file here, or <span class="browse">browse</span>
+              <div class="muted small">Supported: images, audio, video — up to 100MB</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="progress-wrap" id="progressWrap">
+          <div class="progress-bar" id="progressBar"></div>
+          <div class="progress-label" id="progressLabel">0%</div>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="btn-submit" id="submitBtn">
+            <span class="shine"></span>
+            <svg viewBox="0 0 24 24"><path d="M4 12h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <span>Upload</span>
+          </button>
+          <div id="msg" class="msg"></div>
+        </div>
+      </form>
+
+      <div class="success-overlay" id="successOverlay">
+        <div class="success-card">
+          <div class="check" id="checkMark">✓</div>
+          <h3>Upload Complete</h3>
+          <p class="muted">Thanks! Your media was uploaded successfully.</p>
+        </div>
+        <div class="confetti" id="confetti"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- 🌠 Scripts -->
+  <script src="submit.js"></script>
+
+  <!-- Navbar Animation JS -->
+  <script>
+    const navbar = document.getElementById('navbar');
+    const navLinks = document.getElementById('navLinks');
+    const menuToggle = document.getElementById('menuToggle');
+
+    // Scroll blend effect
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 30) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    // Mobile menu animation
+    menuToggle.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+      menuToggle.classList.toggle('active');
+
+      if (menuToggle.classList.contains('active')) {
+        menuToggle.querySelector('span').style.transform = 'rotate(45deg) translateY(8px)';
+        menuToggle.style.transform = 'rotate(90deg)';
+      } else {
+        menuToggle.querySelector('span').style.transform = '';
+        menuToggle.style.transform = '';
+      }
+    });
+  </script>
+</body>
+</html>
+
